@@ -71,7 +71,7 @@ El juego incluye palabras y referencias culturales argentinas como:
 ## 📱 Instalación
 
 ### En Móviles
-1. Abre [https://impostore.github.io](https://lostomobri.github.io/IMPOSTOR-ARGENTO.github.io/) en Chrome/Safari
+1. Abre [https://lostomobri.github.io/IMPOSTOR-ARGENTO.github.io/](https://lostomobri.github.io/IMPOSTOR-ARGENTO.github.io/) en Chrome/Safari
 2. Busca "Agregar a pantalla de inicio"
 3. Confirma la instalación
 
