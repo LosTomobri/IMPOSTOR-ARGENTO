@@ -16,8 +16,7 @@ const urlsToCache = [
   'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
   'https://unpkg.com/@babel/standalone/babel.min.js',
   'https://cdn.tailwindcss.com',
-  'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
-  'https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js',
+  // Firebase scripts removed - using local storage only
   'https://fonts.googleapis.com/css2?family=Russo+One&display=swap'
 ];
 
@@ -108,9 +107,7 @@ self.addEventListener('fetch', (event) => {
   if (
     url.hostname === 'api.countapi.xyz' ||
     url.hostname === 'api.counterapi.dev' ||
-    url.hostname.endsWith('firebaseio.com') ||
-    url.hostname.endsWith('firebasedatabase.app') ||
-    url.hostname === 'firebasedatabase.googleapis.com' ||
+    // Firebase URLs removed - using local storage only
     url.hostname === 'unpkg.com' && (url.pathname.includes('react') || url.pathname.includes('react-dom'))
   ) {
     // Importante: si fetch falla, respondWith NO debe rechazar la promesa (evita "promise was rejected")

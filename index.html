@@ -75,20 +75,14 @@
   <script crossorigin="anonymous" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" onload="console.log('✅ ReactDOM cargado')" onerror="console.error('❌ Failed to load ReactDOM')"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js" onload="console.log('✅ Babel cargado')" onerror="console.error('❌ Failed to load Babel')"></script>
   <script src="https://cdn.tailwindcss.com" onload="console.log('✅ Tailwind cargado')" onerror="console.error('❌ Failed to load Tailwind')"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <!-- Firebase scripts removed - using local storage only -->
   <script>
-  window.FIREBASE_CONFIG = {
-    apiKey: "AIzaSyDL7cc8Lfg04XtYut3BGQ_bzaY6CPFUZtM",
-  authDomain: "impostor-argento.firebaseapp.com",
-  databaseURL: "https://impostor-argento-default-rtdb.firebaseio.com",
-  projectId: "impostor-argento",
-  storageBucket: "impostor-argento.firebasestorage.app",
-  messagingSenderId: "253245882755",
-  appId: "1:253245882755:web:5339590d1cd31abbbc76b6",
-  measurementId: "G-FFZ9HGEHGX"
-  };
-</script>
+  // Local storage only - no Firebase
+  window.FIREBASE_ENABLED = false;
+  window.LOCAL_STORAGE_KEY = 'impostor_game_data';
+  
+  console.log('🔒 Firebase desactivado - usando almacenamiento local');
+  </script>
   <noscript>
     <style>
       body { display: none; }
@@ -2324,12 +2318,8 @@ Juega ahora: https://impostore.github.io`;
         }));
       }, [themeSetting, kidsSafeEnabled, avoidSensitiveEnabled, complexWordsEnabled]);
       
-      // Estados para sistema premium
-      const [isPremium, setIsPremium] = useState(() => {
-        // Cargar estado premium desde localStorage
-        const saved = localStorage.getItem('impostorGamePremium');
-        return saved === 'true';
-      });
+      // Estados para sistema premium - DESBLOQUEADO PARA TODOS
+      const [isPremium, setIsPremium] = useState(true);
       const [showUnlockModal, setShowUnlockModal] = useState(false);
       const [premiumCodeInput, setPremiumCodeInput] = useState('');
       
@@ -2394,31 +2384,15 @@ Juega ahora: https://impostore.github.io`;
         let fbPresenceHandler = null;
 
         try {
-          const cfg = window.FIREBASE_CONFIG;
-          if (cfg && window.firebase && window.firebase.database) {
-            if (!window.firebase.apps || window.firebase.apps.length === 0) {
-              window.firebase.initializeApp(cfg);
-            }
-
-            const db = window.firebase.database();
-            fbPresenceRef = db.ref('presence');
-            fbTabRef = db.ref(`presence/${userId.current}/${tabId.current}`);
-            fbTabRef.onDisconnect().remove();
-            fbTabRef.set(window.firebase.database.ServerValue.TIMESTAMP);
-
-            fbPresenceHandler = (snap) => {
-              const val = snap.val() || {};
-              const count = Object.keys(val).filter((deviceId) => {
-                const tabs = val[deviceId];
-                return tabs && typeof tabs === 'object' && Object.keys(tabs).length > 0;
-              }).length;
-              firebaseEnabledRef.current = true;
-              setLiveUserCount(count);
-              setIsLoadingUsers(false);
-            };
-            fbPresenceRef.on('value', fbPresenceHandler);
-          }
-        } catch (_) {
+          // Firebase desactivado - usando localStorage
+          console.log('🔒 Firebase desactivado - funcionalidad local');
+          firebaseEnabledRef.current = false;
+          
+          // Simular contador de usuarios activos localmente
+          const localUsers = parseInt(localStorage.getItem('active_users') || '1');
+          setLiveUserCount(localUsers);
+        } catch (error) {
+          console.warn('Error en modo local:', error);
           firebaseEnabledRef.current = false;
         }
         
@@ -2478,9 +2452,7 @@ Juega ahora: https://impostore.github.io`;
             setIsUserActive(true);
             updateLiveCount();
 
-            if (fbTabRef) {
-              fbTabRef.set(window.firebase.database.ServerValue.TIMESTAMP);
-            }
+            // Firebase desactivado - no se actualiza timestamp remoto
 
             window.dispatchEvent(new StorageEvent('storage', {
               key: 'impostor_active_tabs',
@@ -2507,9 +2479,7 @@ Juega ahora: https://impostore.github.io`;
           activeTabs[userId.current][tabId.current] = Date.now();
           localStorage.setItem('impostor_active_tabs', JSON.stringify(activeTabs));
 
-          if (fbTabRef) {
-            fbTabRef.set(window.firebase.database.ServerValue.TIMESTAMP);
-          }
+          // Firebase desactivado - solo localStorage
           
           // Actualizar contador inmediatamente cuando hay actividad
           updateLiveCount();
@@ -2565,9 +2535,7 @@ Juega ahora: https://impostore.github.io`;
             unregisterNow();
           } else {
             registerUser();
-            if (fbTabRef) {
-              fbTabRef.set(window.firebase.database.ServerValue.TIMESTAMP);
-            }
+            // Firebase desactivado - no se actualiza timestamp remoto
           }
         };
         document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -2608,7 +2576,7 @@ Juega ahora: https://impostore.github.io`;
         { name: 'Lugares', emoji: '🏖️' },
         { name: 'Videojuegos', emoji: '🎮' },
         { name: 'Música', emoji: '🎵' },
-        { name: 'VIP', emoji: '👑', premium: true }
+        { name: 'VIP', emoji: '👑' }
       ];
 
       const categoryWords = {
