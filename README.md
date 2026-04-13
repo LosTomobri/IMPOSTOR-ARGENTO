@@ -2,7 +2,7 @@
 
 **El juego del impostor con temática argentina 100% gratis** - Juega con tus amigos sin instalar nada. Risas aseguradas 🇦🇷
 
-[![Jugar Ahora](https://img.shields.io/badge/Jugar-Ahora-purple?style=for-the-badge&logo=gamepad)](https://impostore.github.io)
+[![Jugar Ahora](https://img.shields.io/badge/Jugar-Ahora-purple?style=for-the-badge&logo=gamepad)](https://lostomobri.github.io/IMPOSTOR-ARGENTO.github.io/)
 
 ## 🎯 ¿Qué es IMPOSTOR ARGENTO?
 
@@ -18,8 +18,8 @@ IMPOSTOR ARGENTO es un juego de deducción social inspirado en el clásico juego
 
 ## 🎪 Categorías Disponibles
 
-| Categoría | Emoji |
-|-----------|-------|
+| Categorías |
+|-----------|
 | 🐾 Animales |
 | 👔 Profesiones |
 | ⚽ Deportes |
@@ -71,7 +71,7 @@ El juego incluye palabras y referencias culturales argentinas como:
 ## 📱 Instalación
 
 ### En Móviles
-1. Abre [https://impostore.github.io](https://impostore.github.io) en Chrome/Safari
+1. Abre [https://impostore.github.io](https://lostomobri.github.io/IMPOSTOR-ARGENTO.github.io/) en Chrome/Safari
 2. Busca "Agregar a pantalla de inicio"
 3. Confirma la instalación
 
